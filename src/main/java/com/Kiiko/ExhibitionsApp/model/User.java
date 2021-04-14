@@ -1,5 +1,6 @@
 package com.Kiiko.ExhibitionsApp.model;
 
+import com.Kiiko.ExhibitionsApp.model.enums.UserRole;
 import lombok.Builder;
 import lombok.Data;
 

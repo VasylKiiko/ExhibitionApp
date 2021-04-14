@@ -1,6 +1,6 @@
 package com.Kiiko.ExhibitionsApp.dto;
 
-import com.Kiiko.ExhibitionsApp.model.UserRole;
+import com.Kiiko.ExhibitionsApp.model.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;

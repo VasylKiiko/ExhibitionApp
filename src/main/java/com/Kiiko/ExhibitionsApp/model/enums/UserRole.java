@@ -1,4 +1,4 @@
-package com.Kiiko.ExhibitionsApp.model;
+package com.Kiiko.ExhibitionsApp.model.enums;
 
 public enum UserRole {
     USER, ADMIN;

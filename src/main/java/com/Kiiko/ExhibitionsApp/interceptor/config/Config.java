@@ -1,4 +1,4 @@
-package com.Kiiko.ExhibitionsApp.config;
+package com.Kiiko.ExhibitionsApp.interceptor.config;
 
 import com.Kiiko.ExhibitionsApp.interceptor.LoggingInterceptor;
 import org.springframework.context.annotation.Configuration;
