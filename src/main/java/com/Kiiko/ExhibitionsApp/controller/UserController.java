@@ -1,5 +1,7 @@
 package com.Kiiko.ExhibitionsApp.controller;
 
+import com.Kiiko.ExhibitionsApp.controller.assembler.UserAssembler;
+import com.Kiiko.ExhibitionsApp.controller.model.UserModel;
 import com.Kiiko.ExhibitionsApp.dto.UserDto;
 import com.Kiiko.ExhibitionsApp.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,28 +16,33 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final UserAssembler userAssembler;
 
-    @GetMapping
-    public UserDto getUserByEmail(@RequestParam String email) {
+    @GetMapping("/email/{email}")
+    public UserModel getUserByEmail(@PathVariable String email) {
         log.info("get User with email = '{}'", email);
-        return userService.getUserByEmail(email);
+        UserDto userDto = userService.getUserByEmail(email);
+        return userAssembler.toModel(userDto);
     }
 
-    @GetMapping("/{userId}")
-    public UserDto getUserById(@PathVariable int userId) {
+    @GetMapping("/userId/{userId}")
+    public UserModel getUserById(@PathVariable int userId) {
         log.info("get User with userId = '{}'", userId);
-        return userService.getUserById(userId);
+        UserDto userDto = userService.getUserById(userId);
+        return userAssembler.toModel(userDto);
     }
 
     @PostMapping
-    public UserDto addUser(@Valid @RequestBody UserDto userDto) {
+    public UserModel addUser(@Valid @RequestBody UserDto userDto) {
         log.info("addUser method, userDto: {}", userDto);
-        return userService.addUser(userDto);
+        UserDto addedUser = userService.addUser(userDto);
+        return userAssembler.toModel(addedUser);
     }
 
     @PutMapping("/{userId}")
-    public UserDto updateUser(@Valid @RequestBody UserDto userDto, @PathVariable int userId) {
+    public UserModel updateUser(@Valid @RequestBody UserDto userDto, @PathVariable int userId) {
         log.info("update user - {}", userDto);
-        return userService.updateUser(userId, userDto);
+        UserDto updatedUser = userService.updateUser(userId, userDto);
+        return userAssembler.toModel(updatedUser);
     }
 }
