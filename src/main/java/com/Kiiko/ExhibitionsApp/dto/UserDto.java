@@ -12,9 +12,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
-    public interface New {
-    }
-
     private int userId;
 
     @Email(message = "Invalid email")

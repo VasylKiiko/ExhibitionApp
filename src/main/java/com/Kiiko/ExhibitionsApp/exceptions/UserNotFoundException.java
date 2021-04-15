@@ -1,8 +1,21 @@
 package com.Kiiko.ExhibitionsApp.exceptions;
 
 
-public class UserNotFoundException extends RuntimeException {
+import com.Kiiko.ExhibitionsApp.model.enums.ErrorType;
+
+public class UserNotFoundException extends ServiceException {
+    private static String DEFAULT_MASSAGE = "User not found ";
+
+    public UserNotFoundException() {
+        super(DEFAULT_MASSAGE);
+    }
+
     public UserNotFoundException(String message) {
-        super("User not found with " + message);
+        super(DEFAULT_MASSAGE + message);
+    }
+
+    @Override
+    public ErrorType getErrorType() {
+        return ErrorType.DATABASE_ERROR;
     }
 }
