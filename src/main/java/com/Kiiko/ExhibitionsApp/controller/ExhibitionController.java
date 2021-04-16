@@ -1,58 +1,58 @@
 package com.Kiiko.ExhibitionsApp.controller;
 
+import com.Kiiko.ExhibitionsApp.api.ExhibitionApi;
+import com.Kiiko.ExhibitionsApp.controller.assembler.ExhibitionAssembler;
+import com.Kiiko.ExhibitionsApp.controller.model.ExhibitionModel;
 import com.Kiiko.ExhibitionsApp.model.SearchDetails;
 import com.Kiiko.ExhibitionsApp.dto.ExhibitionDto;
 import com.Kiiko.ExhibitionsApp.service.ExhibitionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
-@Validated
 @RestController
-@RequestMapping("/exhibitions")
 @RequiredArgsConstructor
-public class ExhibitionController {
+public class ExhibitionController implements ExhibitionApi {
     private final ExhibitionService exhibitionService;
+    private final ExhibitionAssembler exhibitionAssembler;
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{exhibitionId}")
-    public ExhibitionDto getExhibitionDetails(@PathVariable int exhibitionId) {
+    @Override
+    public ExhibitionModel getExhibitionDetails(int exhibitionId) {
         log.info("Getting exhibition details for exhibition with id = {}", exhibitionId);
-        return exhibitionService.getExhibitionDetails(exhibitionId);
+        ExhibitionDto exbDto = exhibitionService.getExhibitionDetails(exhibitionId);
+        return exhibitionAssembler.toModel(exbDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/search")
-    public List<ExhibitionDto> getFilteredExhibitions(@Valid @RequestBody SearchDetails searchDetails) {
+    @Override
+    public List<ExhibitionModel> getFilteredExhibitions(SearchDetails searchDetails) {
         log.info("Getting exhibitions using search details {}", searchDetails);
-        return exhibitionService.getFilteredExhibitions(searchDetails);
+        return exhibitionService.getFilteredExhibitions(searchDetails).stream()
+                .map(exhibitionAssembler::toModel)
+                .collect(Collectors.toList());
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    @Validated(ExhibitionDto.NewExb.class)
-    public ExhibitionDto createExhibition(@Valid @RequestBody ExhibitionDto exhibitionDto) {
+    @Override
+    public ExhibitionModel createExhibition(ExhibitionDto exhibitionDto) {
         log.info("Creating new exhibition - {}", exhibitionDto);
-        return exhibitionService.addExhibition(exhibitionDto);
+        ExhibitionDto createdExb = exhibitionService.addExhibition(exhibitionDto);
+        return exhibitionAssembler.toModel(createdExb);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{exhibitionId}")
-    @Validated(ExhibitionDto.UpdateExb.class)
-    public ExhibitionDto updateExhibition(@PathVariable int exhibitionId, @Valid @RequestBody ExhibitionDto exhibition) {
+    @Override
+    public ExhibitionModel updateExhibition(int exhibitionId, ExhibitionDto exhibition) {
         log.info("Updating exhibition with id = {} and dto - {}", exhibitionId, exhibitionId);
-        return exhibitionService.updateExhibition(exhibitionId, exhibition);
+        ExhibitionDto updatedExb = exhibitionService.updateExhibition(exhibitionId, exhibition);
+        return exhibitionAssembler.toModel(updatedExb);
     }
 
     @DeleteMapping("/{exhibitionId}")
-    public ResponseEntity<Void> deleteExhibition(@PathVariable int exhibitionId) {
+    public ResponseEntity<Void> deleteExhibition(int exhibitionId) {
         log.info("Deleting exhibition with id = {}", exhibitionId);
         exhibitionService.deleteExhibition(exhibitionId);
         return ResponseEntity.noContent().build();
