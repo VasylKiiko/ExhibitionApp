@@ -1,15 +1,13 @@
 package com.Kiiko.ExhibitionsApp.repository;
 
 import com.Kiiko.ExhibitionsApp.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository {
-    User addUser(User newUser);
+import java.util.Optional;
 
-    boolean isUserEmailExists(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    User getUserByEmail(String email);
+    boolean existsByEmail(String email);
 
-    User getUserById(int userId);
-
-    User updateUser(int userId, User user);
+    Optional<User> findUserByEmail(String email);
 }

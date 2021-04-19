@@ -23,7 +23,7 @@ public class ExhibitionController implements ExhibitionApi {
     private final ExhibitionAssembler exhibitionAssembler;
 
     @Override
-    public ExhibitionModel getExhibitionDetails(int exhibitionId) {
+    public ExhibitionModel getExhibitionDetails(Long exhibitionId) {
         log.info("Getting exhibition details for exhibition with id = {}", exhibitionId);
         ExhibitionDto exbDto = exhibitionService.getExhibitionDetails(exhibitionId);
         return exhibitionAssembler.toModel(exbDto);
@@ -45,14 +45,14 @@ public class ExhibitionController implements ExhibitionApi {
     }
 
     @Override
-    public ExhibitionModel updateExhibition(int exhibitionId, ExhibitionDto exhibition) {
+    public ExhibitionModel updateExhibition(Long exhibitionId, ExhibitionDto exhibition) {
         log.info("Updating exhibition with id = {} and dto - {}", exhibitionId, exhibitionId);
         ExhibitionDto updatedExb = exhibitionService.updateExhibition(exhibitionId, exhibition);
         return exhibitionAssembler.toModel(updatedExb);
     }
 
-    @DeleteMapping("/{exhibitionId}")
-    public ResponseEntity<Void> deleteExhibition(int exhibitionId) {
+    @Override
+    public ResponseEntity<Void> deleteExhibition(Long exhibitionId) {
         log.info("Deleting exhibition with id = {}", exhibitionId);
         exhibitionService.deleteExhibition(exhibitionId);
         return ResponseEntity.noContent().build();

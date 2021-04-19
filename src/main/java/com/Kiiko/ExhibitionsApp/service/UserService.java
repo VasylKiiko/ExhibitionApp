@@ -5,9 +5,9 @@ import com.Kiiko.ExhibitionsApp.dto.UserDto;
 public interface UserService {
     UserDto getUserByEmail(String email);
 
-    UserDto getUserById(int userId);
+    UserDto getUserById(Long userId);
 
     UserDto addUser(UserDto userDto);
 
-    UserDto updateUser(int userId, UserDto userDto);
+    UserDto updateUser(Long userId, UserDto userDto);
 }

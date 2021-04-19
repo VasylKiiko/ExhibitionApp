@@ -20,7 +20,7 @@ public class ExhibitionDto {
     public interface UpdateExb {
     }
 
-    private int exbId;
+    private Long exbId;
     private int ticketsBought;
 
     private String exbTheme;
@@ -35,8 +35,8 @@ public class ExhibitionDto {
     private List<Integer> rooms;
 
     @NotNull(groups = {NewExb.class, UpdateExb.class})
-    private LocalDate dayFrom;
+    private LocalDate dateFrom;
 
     @NotNull(groups = {NewExb.class, UpdateExb.class})
-    private LocalDate dayTo;
+    private LocalDate dateTo;
 }

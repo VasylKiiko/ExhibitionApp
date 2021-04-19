@@ -25,7 +25,7 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public UserModel getUserById(int userId) {
+    public UserModel getUserById(Long userId) {
         log.info("get User with userId = '{}'", userId);
         UserDto userDto = userService.getUserById(userId);
         return userAssembler.toModel(userDto);
@@ -39,7 +39,7 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public UserModel updateUser(UserDto userDto, int userId) {
+    public UserModel updateUser(UserDto userDto, Long userId) {
         log.info("update user - {}", userDto);
         UserDto updatedUser = userService.updateUser(userId, userDto);
         return userAssembler.toModel(updatedUser);

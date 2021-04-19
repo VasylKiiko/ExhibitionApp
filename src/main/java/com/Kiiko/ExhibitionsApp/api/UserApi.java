@@ -28,7 +28,7 @@ public interface UserApi {
     @ApiOperation("Get user by userId")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/userId/{userId}")
-    UserModel getUserById(@PathVariable int userId);
+    UserModel getUserById(@PathVariable Long userId);
 
     @ApiOperation("Add user")
     @ResponseStatus(HttpStatus.CREATED)
@@ -41,5 +41,5 @@ public interface UserApi {
     @ApiOperation("Update user with userId")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{userId}")
-    UserModel updateUser(@Valid @RequestBody UserDto userDto, @PathVariable int userId);
+    UserModel updateUser(@Valid @RequestBody UserDto userDto, @PathVariable Long userId);
 }

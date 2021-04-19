@@ -1,15 +1,18 @@
 package com.Kiiko.ExhibitionsApp.service.impl;
 
 import com.Kiiko.ExhibitionsApp.dto.ExhibitionDto;
+import com.Kiiko.ExhibitionsApp.exceptions.ExhibitionNotFoundException;
 import com.Kiiko.ExhibitionsApp.model.Exhibition;
 import com.Kiiko.ExhibitionsApp.model.SearchDetails;
 import com.Kiiko.ExhibitionsApp.repository.ExhibitionRepository;
 import com.Kiiko.ExhibitionsApp.service.ExhibitionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,46 +21,51 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 
     @Override
     public List<ExhibitionDto> getFilteredExhibitions(SearchDetails searchDetails) {
-        List<ExhibitionDto> exhibitionDtoList = new ArrayList<>();
         List<Exhibition> filteredExhibitions = new ArrayList<>();
         switch (searchDetails.getSearchType()) {
             case BY_DATE:
-                filteredExhibitions = exbRepository.getExhibitionsByDate(searchDetails.getDateFrom(), searchDetails.getDateTo());
+                filteredExhibitions = exbRepository.findAllByDate(searchDetails.getDateFrom(), searchDetails.getDateTo(),
+                        searchDetails.getPage(), searchDetails.getRecordsPerPage());
                 break;
             case BY_NAME:
-                filteredExhibitions = exbRepository.getExhibitionsByName(searchDetails.getName());
+                filteredExhibitions = exbRepository.findAllByExbThemeContains(searchDetails.getName(),
+                        PageRequest.of(searchDetails.getPage(), searchDetails.getRecordsPerPage()));
                 break;
             case BY_PRICE:
-                filteredExhibitions = exbRepository.getExhibitionsByPrice(searchDetails.getPrice());
+                filteredExhibitions = exbRepository.findAllByPriceBetween(searchDetails.getPriceFrom(), searchDetails.getPriceTo(),
+                        PageRequest.of(searchDetails.getPage(), searchDetails.getRecordsPerPage()));
         }
 
-        for (Exhibition exhibition : filteredExhibitions) {
-            exhibitionDtoList.add(mapExhibitionToExhibitionDto(exhibition));
-        }
-        return exhibitionDtoList;
+        return filteredExhibitions.stream()
+                .map(this::mapExhibitionToExhibitionDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public ExhibitionDto getExhibitionDetails(int exbId) {
-        return mapExhibitionToExhibitionDto(exbRepository.getExhibitionDetails(exbId));
+    public ExhibitionDto getExhibitionDetails(Long exbId) {
+        return mapExhibitionToExhibitionDto(exbRepository.findById(exbId).orElseThrow(ExhibitionNotFoundException::new));
     }
 
     @Override
     public ExhibitionDto addExhibition(ExhibitionDto exhibition) {
         Exhibition exbToAdd = mapExhibitionDtoToExhibition(exhibition);
-        return mapExhibitionToExhibitionDto(exbRepository.addExhibition(exbToAdd));
+        return mapExhibitionToExhibitionDto(exbRepository.save(exbToAdd));
     }
 
     @Override
-    public void deleteExhibition(int exbId) {
-        exbRepository.deleteExhibition(exbId);
+    public void deleteExhibition(Long exbId) {
+        Exhibition exhibitionToDelete = exbRepository.findById(exbId).orElseThrow(ExhibitionNotFoundException::new);
+        exbRepository.delete(exhibitionToDelete);
     }
 
     @Override
-    public ExhibitionDto updateExhibition(int exbId, ExhibitionDto exhibition) {
+    public ExhibitionDto updateExhibition(Long exbId, ExhibitionDto exhibition) {
         Exhibition exbToUpdate = mapExhibitionDtoToExhibition(exhibition);
+        Exhibition exbFromDB = exbRepository.findById(exbId).orElseThrow(ExhibitionNotFoundException::new);
+        exbRepository.delete(exbFromDB);
+        exbToUpdate = exbRepository.save(exbToUpdate);
 
-        return mapExhibitionToExhibitionDto(exbRepository.updateExhibition(exbId, exbToUpdate));
+        return mapExhibitionToExhibitionDto(exbToUpdate);
     }
 
     private ExhibitionDto mapExhibitionToExhibitionDto(Exhibition exb) {
@@ -65,11 +73,10 @@ public class ExhibitionServiceImpl implements ExhibitionService {
                 .exbId(exb.getExbId())
                 .exbTheme(exb.getExbTheme())
                 .description(exb.getDescription())
-                .dayFrom(exb.getDayFrom())
-                .dayTo(exb.getDayTo())
+                .dateFrom(exb.getDateFrom())
+                .dateTo(exb.getDateTo())
                 .price(exb.getPrice())
                 .ticketsBought(exb.getTicketsBought())
-                .rooms(exb.getRooms())
                 .build();
     }
 
@@ -78,10 +85,9 @@ public class ExhibitionServiceImpl implements ExhibitionService {
                 .exbId(exbDto.getExbId())
                 .exbTheme(exbDto.getExbTheme())
                 .description(exbDto.getDescription())
-                .dayFrom(exbDto.getDayFrom())
-                .dayTo(exbDto.getDayTo())
+                .dateFrom(exbDto.getDateFrom())
+                .dateTo(exbDto.getDateTo())
                 .price(exbDto.getPrice())
-                .rooms(exbDto.getRooms())
                 .build();
     }
 }

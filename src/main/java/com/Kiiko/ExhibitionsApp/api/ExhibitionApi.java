@@ -18,12 +18,12 @@ import java.util.List;
 @RequestMapping("/api/v1/exhibitions")
 public interface ExhibitionApi {
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "exhibitionId", paramType = "path", required = true, value = "Exhibition ID", dataType = "Integer")
+            @ApiImplicitParam(name = "exhibitionId", paramType = "path", required = true, value = "Exhibition ID", dataType = "Long")
     })
     @ApiOperation("Get exposition details by ID")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{exhibitionId}")
-    ExhibitionModel getExhibitionDetails(@PathVariable int exhibitionId);
+    ExhibitionModel getExhibitionDetails(@PathVariable Long exhibitionId);
 
     @ApiOperation("Get exposition list filtered according to SearchDetails")
     @ResponseStatus(HttpStatus.OK)
@@ -36,17 +36,17 @@ public interface ExhibitionApi {
     ExhibitionModel createExhibition(@RequestBody ExhibitionDto exhibitionDto);
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "exhibitionId", paramType = "path", required = true, value = "Exhibition ID", dataType = "Integer"),
+            @ApiImplicitParam(name = "exhibitionId", paramType = "path", required = true, value = "Exhibition ID", dataType = "Long"),
     })
     @ApiOperation("Update (replace) exhibition with ID with updated exhibitionDto")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{exhibitionId}")
-    ExhibitionModel updateExhibition(@PathVariable int exhibitionId, @RequestBody ExhibitionDto exhibition);
+    ExhibitionModel updateExhibition(@PathVariable Long exhibitionId, @RequestBody ExhibitionDto exhibition);
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "exhibitionId", paramType = "path", required = true, value = "Exhibition ID", dataType = "Integer")
+            @ApiImplicitParam(name = "exhibitionId", paramType = "path", required = true, value = "Exhibition ID", dataType = "Long")
     })
     @ApiOperation("Delete exposition with ID")
     @DeleteMapping("/{exhibitionId}")
-    ResponseEntity<Void> deleteExhibition(@PathVariable int exhibitionId);
+    ResponseEntity<Void> deleteExhibition(@PathVariable Long exhibitionId);
 }

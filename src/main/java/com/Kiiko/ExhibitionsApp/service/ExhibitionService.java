@@ -11,11 +11,11 @@ public interface ExhibitionService {
 
     List<ExhibitionDto> getFilteredExhibitions(SearchDetails searchDetails);
 
-    ExhibitionDto getExhibitionDetails(int exbId);
+    ExhibitionDto getExhibitionDetails(Long exbId);
 
     ExhibitionDto addExhibition(ExhibitionDto exhibition);
 
-    void deleteExhibition(int exbId);
+    void deleteExhibition(Long exbId);
 
-    ExhibitionDto updateExhibition(int exbId, ExhibitionDto exhibition);
+    ExhibitionDto updateExhibition(Long exbId, ExhibitionDto exhibition);
 }

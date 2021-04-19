@@ -2,6 +2,7 @@ package com.Kiiko.ExhibitionsApp.service.impl;
 
 import com.Kiiko.ExhibitionsApp.dto.UserDto;
 import com.Kiiko.ExhibitionsApp.exceptions.UserAlreadyExistException;
+import com.Kiiko.ExhibitionsApp.exceptions.UserNotFoundException;
 import com.Kiiko.ExhibitionsApp.model.User;
 import com.Kiiko.ExhibitionsApp.repository.UserRepository;
 import com.Kiiko.ExhibitionsApp.service.UserService;
@@ -17,31 +18,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByEmail(String email) {
-        User user = userRepository.getUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElseThrow(UserNotFoundException::new);
         return mapUserToUserDto(user);
     }
 
     @Override
-    public UserDto getUserById(int userId) {
-        User user = userRepository.getUserById(userId);
+    public UserDto getUserById(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         return mapUserToUserDto(user);
     }
 
     @Override
     public UserDto addUser(UserDto userDto) {
-        if (userRepository.isUserEmailExists(userDto.getEmail())) {
+        if (userRepository.existsByEmail(userDto.getEmail())) {
             log.debug("User with email {} already exists", userDto.getEmail());
             throw new UserAlreadyExistException(userDto.getEmail());
         }
         User userToAdd = mapUserDtoToUser(userDto);
-        User user = userRepository.addUser(userToAdd);
+        User user = userRepository.save(userToAdd);
         return mapUserToUserDto(user);
     }
 
     @Override
-    public UserDto updateUser(int userId, UserDto userDto) {
-        User userToUpdate = mapUserDtoToUser(userDto);
-        User user = userRepository.updateUser(userId, userToUpdate);
+    public UserDto updateUser(Long userId, UserDto userDto) {
+        User user = mapUserDtoToUser(userDto);
+        User userFromDB = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        userRepository.delete(userFromDB);
+        user = userRepository.save(user);
         return mapUserToUserDto(user);
     }
 
@@ -49,7 +52,7 @@ public class UserServiceImpl implements UserService {
         return UserDto.builder()
                 .userId(user.getUserId())
                 .email(user.getEmail())
-                .role(user.getRole())
+                .role(user.getUserRole())
                 .name(user.getName())
                 .surname(user.getSurname())
                 .build();
@@ -60,7 +63,7 @@ public class UserServiceImpl implements UserService {
                 .userId(userDto.getUserId())
                 .email(userDto.getEmail())
                 .password(userDto.getPassword())
-                .role(userDto.getRole())
+                .userRole(userDto.getRole())
                 .name(userDto.getName())
                 .surname(userDto.getSurname())
                 .build();

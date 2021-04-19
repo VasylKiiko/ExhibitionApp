@@ -10,9 +10,16 @@ import java.time.LocalDate;
 public class SearchDetails {
     @NotNull
     private SearchType searchType;
+    @NotNull
+    private int page;
+    @NotNull
+    private int recordsPerPage;
 
-    private double price;
+    private double priceFrom;
+    private double priceTo;
+
     private String name;
+
     private LocalDate dateFrom;
     private LocalDate dateTo;
 }

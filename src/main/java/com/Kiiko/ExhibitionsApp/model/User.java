@@ -1,17 +1,30 @@
 package com.Kiiko.ExhibitionsApp.model;
 
 import com.Kiiko.ExhibitionsApp.model.enums.UserRole;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Builder
+import javax.persistence.*;
+
 @Data
+@Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
-    private int userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userId;
 
+    @Column(unique = true)
     private String email;
+
     private String password;
-    private UserRole role;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
     private String name;
     private String surname;

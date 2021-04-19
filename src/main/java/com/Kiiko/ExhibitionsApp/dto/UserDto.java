@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
-    private int userId;
+    private Long userId;
 
     @Email(message = "Invalid email")
     @NotNull
