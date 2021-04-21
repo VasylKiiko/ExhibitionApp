@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 public class TicketAssembler extends RepresentationModelAssemblerSupport<TicketDto, TicketModel> {
 
 
-    public TicketAssembler(Class<?> controllerClass, Class<TicketModel> resourceType) {
-        super(controllerClass, resourceType);
+    public TicketAssembler() {
+        super(TicketController.class, TicketModel.class);
     }
 
     @Override
