@@ -31,9 +31,6 @@ public class ExhibitionDto {
     private double price;
 
     @NotNull(groups = {NewExb.class, UpdateExb.class})
-    private List<Integer> rooms;
-
-    @NotNull(groups = {NewExb.class, UpdateExb.class})
     private LocalDate dateFrom;
 
     @NotNull(groups = {NewExb.class, UpdateExb.class})

@@ -46,6 +46,8 @@ public class UserServiceImpl implements UserService {
         User user = mapUserDtoToUser(userDto);
         User userFromDB = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         userRepository.delete(userFromDB);
+
+        user.setUserId(userFromDB.getUserId());
         user = userRepository.save(user);
         return mapUserToUserDto(user);
     }

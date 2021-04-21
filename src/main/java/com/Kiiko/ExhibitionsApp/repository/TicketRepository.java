@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
-    @Query(value = "SELECT COUNT(ticket.visitorsNumber) FROM #{#entityName} as ticket WHERE ticket.exhibition_id = :exbId",
+    @Query(value = "SELECT SUM(ticket.visitors_number) FROM #{#entityName} as ticket WHERE ticket.exhibition_id = :exbId",
             nativeQuery = true)
     int getTicketCountForExhibition(@Param("exbId") Long exhibitionId);
 

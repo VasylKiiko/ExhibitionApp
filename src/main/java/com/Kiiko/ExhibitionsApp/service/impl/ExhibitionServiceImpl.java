@@ -5,6 +5,7 @@ import com.Kiiko.ExhibitionsApp.exceptions.ExhibitionNotFoundException;
 import com.Kiiko.ExhibitionsApp.model.Exhibition;
 import com.Kiiko.ExhibitionsApp.model.SearchDetails;
 import com.Kiiko.ExhibitionsApp.repository.ExhibitionRepository;
+import com.Kiiko.ExhibitionsApp.repository.TicketRepository;
 import com.Kiiko.ExhibitionsApp.service.ExhibitionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ExhibitionServiceImpl implements ExhibitionService {
     private final ExhibitionRepository exbRepository;
+    private final TicketRepository ticketRepository;
 
     @Override
     public List<ExhibitionDto> getFilteredExhibitions(SearchDetails searchDetails) {
@@ -68,6 +70,10 @@ public class ExhibitionServiceImpl implements ExhibitionService {
         return mapExhibitionToExhibitionDto(exbToUpdate);
     }
 
+    private int getTicketsBought(Long exbId) {
+        return ticketRepository.getTicketCountForExhibition(exbId);
+    }
+
     private ExhibitionDto mapExhibitionToExhibitionDto(Exhibition exb) {
         return ExhibitionDto.builder()
                 .exbId(exb.getExbId())
@@ -76,7 +82,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
                 .dateFrom(exb.getDateFrom())
                 .dateTo(exb.getDateTo())
                 .price(exb.getPrice())
-                .ticketsBought(exb.getTicketsBought())
+                .ticketsBought(getTicketsBought(exb.getExbId()))
                 .build();
     }
 
