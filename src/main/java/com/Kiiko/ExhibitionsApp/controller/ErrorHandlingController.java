@@ -1,5 +1,6 @@
 package com.Kiiko.ExhibitionsApp.controller;
 
+import com.Kiiko.ExhibitionsApp.exceptions.NoAccessToRecourseException;
 import com.Kiiko.ExhibitionsApp.exceptions.ServiceException;
 import com.Kiiko.ExhibitionsApp.model.Error;
 import com.Kiiko.ExhibitionsApp.model.enums.ErrorType;
@@ -26,6 +27,13 @@ public class ErrorHandlingController {
                 .map(objectError -> new Error(objectError.getDefaultMessage(), ErrorType.VALIDATION_ERROR,
                         LocalDateTime.now()))
                 .collect(Collectors.toList());
+    }
+
+    @ExceptionHandler(NoAccessToRecourseException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Error handleAccessException(NoAccessToRecourseException exception) {
+        log.error("handle NoAccessToRecourseException: {}", exception.getMessage());
+        return new Error(exception.getMessage(), exception.getErrorType(), LocalDateTime.now());
     }
 
     @ExceptionHandler(ServiceException.class)

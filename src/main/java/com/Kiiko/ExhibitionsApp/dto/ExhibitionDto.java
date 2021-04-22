@@ -1,5 +1,6 @@
 package com.Kiiko.ExhibitionsApp.dto;
 
+import com.Kiiko.ExhibitionsApp.validation.annotation.ValidDate;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Builder;
@@ -7,32 +8,27 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @Builder
 @JsonInclude(Include.NON_NULL)
+@ValidDate
 public class ExhibitionDto {
-    public interface NewExb {
-    }
-
-    public interface UpdateExb {
-    }
-
     private Long exbId;
-    private int ticketsBought;
+    private long ticketsBought;
 
+    @NotNull
     private String exbTheme;
 
-    @NotNull(groups = {NewExb.class, UpdateExb.class})
+    @NotNull
     private String description;
 
-    @NotNull(groups = {NewExb.class, UpdateExb.class})
+    @NotNull
     private double price;
 
-    @NotNull(groups = {NewExb.class, UpdateExb.class})
+    @NotNull
     private LocalDate dateFrom;
 
-    @NotNull(groups = {NewExb.class, UpdateExb.class})
+    @NotNull
     private LocalDate dateTo;
 }

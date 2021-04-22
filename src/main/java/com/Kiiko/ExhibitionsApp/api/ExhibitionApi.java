@@ -7,8 +7,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @Api(tags = "Exhibition management API")
 @RequestMapping("/api/v1/exhibitions")
+@Validated
 public interface ExhibitionApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "exhibitionId", paramType = "path", required = true, value = "Exhibition ID", dataType = "Long")
@@ -28,12 +31,12 @@ public interface ExhibitionApi {
     @ApiOperation("Get exposition list filtered according to SearchDetails")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/search")
-    List<ExhibitionModel> getFilteredExhibitions(@Valid @RequestBody SearchDetails searchDetails);
+    CollectionModel<ExhibitionModel> getFilteredExhibitions(@Valid @RequestBody SearchDetails searchDetails);
 
     @ApiOperation("Create new exhibition")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    ExhibitionModel createExhibition(@RequestBody ExhibitionDto exhibitionDto);
+    ExhibitionModel createExhibition(@Valid @RequestBody ExhibitionDto exhibitionDto);
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "exhibitionId", paramType = "path", required = true, value = "Exhibition ID", dataType = "Long"),
@@ -41,7 +44,7 @@ public interface ExhibitionApi {
     @ApiOperation("Update (replace) exhibition with ID with updated exhibitionDto")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{exhibitionId}")
-    ExhibitionModel updateExhibition(@PathVariable Long exhibitionId, @RequestBody ExhibitionDto exhibition);
+    ExhibitionModel updateExhibition(@PathVariable Long exhibitionId, @Valid @RequestBody ExhibitionDto exhibition);
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "exhibitionId", paramType = "path", required = true, value = "Exhibition ID", dataType = "Long")

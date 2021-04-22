@@ -5,10 +5,12 @@ import com.Kiiko.ExhibitionsApp.dto.TicketDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "Tickets management API")
@@ -25,12 +27,12 @@ public interface TicketAPI {
     @ApiOperation("Get list of users tickets")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    List<TicketModel> getUsersTickets(@PathVariable Long userId);
+    CollectionModel<TicketModel> getUsersTickets(@PathVariable Long userId);
 
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Creating ticket for user")
     @PostMapping
-    TicketModel createTicket(@RequestBody TicketDto ticketDto, @PathVariable Long userId);
+    TicketModel createTicket(@Valid @RequestBody TicketDto ticketDto, @PathVariable Long userId);
 
     @ApiOperation("Delete ticket with ticketId")
     @DeleteMapping("/{ticketId}")

@@ -70,8 +70,9 @@ public class ExhibitionServiceImpl implements ExhibitionService {
         return mapExhibitionToExhibitionDto(exbToUpdate);
     }
 
-    private int getTicketsBought(Long exbId) {
-        return ticketRepository.getTicketCountForExhibition(exbId);
+    private long getTicketsBought(Long exbId) {
+        Long sum = ticketRepository.getTicketCountForExhibition(exbId);
+        return sum != null ? sum : 0L;
     }
 
     private ExhibitionDto mapExhibitionToExhibitionDto(Exhibition exb) {

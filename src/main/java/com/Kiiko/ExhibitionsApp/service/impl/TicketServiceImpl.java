@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -69,6 +70,12 @@ public class TicketServiceImpl implements TicketService {
         log.info("TicketService@deleteTicket. Deleting ticket with id {}", ticketId);
         Ticket ticketToDelete = ticketRepository.findById(ticketId).orElseThrow(TicketNotFoundException::new);
         ticketRepository.delete(ticketToDelete);
+    }
+
+    @Override
+    public boolean isTicketBelongsToUser(Long ticketId, Long userId) {
+        Optional<Ticket> ticket = ticketRepository.findByTicketIdAndUserId(ticketId, userId);
+        return ticket.isPresent();
     }
 
     private Ticket mapTicketDtoToTicket(TicketDto ticketDto) {

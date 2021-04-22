@@ -12,4 +12,6 @@ public interface TicketService {
     TicketDto createTicket(TicketDto ticketDto, Long userId);
 
     void deleteTicket(Long ticketId);
+
+    boolean isTicketBelongsToUser(Long ticketId, Long userId);
 }

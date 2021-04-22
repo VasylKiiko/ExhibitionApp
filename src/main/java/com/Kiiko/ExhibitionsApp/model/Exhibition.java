@@ -24,7 +24,7 @@ public class Exhibition {
 
     private double price;
     @Transient
-    private int ticketsBought;
+    private long ticketsBought;
 
     private LocalDate dateFrom;
     private LocalDate dateTo;
