@@ -70,6 +70,7 @@ public class TicketServiceImpl implements TicketService {
         log.info("TicketService@deleteTicket. Deleting ticket with id {}", ticketId);
         Ticket ticketToDelete = ticketRepository.findById(ticketId).orElseThrow(TicketNotFoundException::new);
         ticketRepository.delete(ticketToDelete);
+        log.info("Ticket is deleted");
     }
 
     @Override

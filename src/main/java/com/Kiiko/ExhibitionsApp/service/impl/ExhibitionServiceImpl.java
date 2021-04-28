@@ -64,7 +64,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     public ExhibitionDto updateExhibition(Long exbId, ExhibitionDto exhibition) {
         Exhibition exbToUpdate = mapExhibitionDtoToExhibition(exhibition);
         Exhibition exbFromDB = exbRepository.findById(exbId).orElseThrow(ExhibitionNotFoundException::new);
-        exbRepository.delete(exbFromDB);
+        exbToUpdate.setExbId(exbFromDB.getExbId());
         exbToUpdate = exbRepository.save(exbToUpdate);
 
         return mapExhibitionToExhibitionDto(exbToUpdate);

@@ -24,7 +24,7 @@ public class Ticket {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "exhibition_id")
     private Exhibition exhibition;
 
