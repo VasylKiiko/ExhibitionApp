@@ -4,7 +4,7 @@ package com.Kiiko.ExhibitionsApp.exceptions;
 import com.Kiiko.ExhibitionsApp.model.enums.ErrorType;
 
 public class UserNotFoundException extends ServiceException {
-    private static String DEFAULT_MASSAGE = "User not found ";
+    private static final String DEFAULT_MASSAGE = "User not found ";
 
     public UserNotFoundException() {
         super(DEFAULT_MASSAGE);

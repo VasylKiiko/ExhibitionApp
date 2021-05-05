@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandlingController {
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Error handleConstraintViolationException(ConstraintViolationException exception){
+        log.error("handle NoAccessToRecourseException: {}", exception.getMessage());
+        return new Error(exception.getMessage(), ErrorType.VALIDATION_ERROR, LocalDateTime.now());
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -46,7 +54,7 @@ public class ErrorHandlingController {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Error handleException(Exception exception) {
-        log.error("handle Exception: {}", exception.getMessage());
+        log.error("handle Exception {}: {}", exception.getClass(), exception.getMessage());
         return new Error(exception.getMessage(), ErrorType.FATAL_ERROR, LocalDateTime.now());
     }
 }
