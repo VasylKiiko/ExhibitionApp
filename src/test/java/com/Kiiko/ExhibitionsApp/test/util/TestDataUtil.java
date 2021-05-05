@@ -20,6 +20,29 @@ public class TestDataUtil {
     public static final Long TEST_USER_ID = 1L;
     public static final Long TEST_EXHIBITION_ID = 1L;
 
+    public static User createUser(String email) {
+        return User.builder()
+                .userId(TEST_USER_ID)
+                .name("Name")
+                .surname("Surname")
+                .userRole(UserRole.USER)
+                .email(email)
+                .password("Qwerty123!")
+                .build();
+    }
+
+    public static UserDto createUserDto(String email) {
+        return UserDto.builder()
+                .userId(TEST_USER_ID)
+                .name("Name")
+                .surname("Surname")
+                .role(UserRole.USER)
+                .email(email)
+                .password("Qwerty123!")
+                .repeatPassword("Qwerty123!")
+                .build();
+    }
+
     public static User createUser(Long id) {
         return User.builder()
                 .userId(id)
@@ -39,6 +62,7 @@ public class TestDataUtil {
                 .role(UserRole.USER)
                 .email(TEST_EMAIL)
                 .password("Qwerty123!")
+                .repeatPassword("Qwerty123!")
                 .build();
     }
 
