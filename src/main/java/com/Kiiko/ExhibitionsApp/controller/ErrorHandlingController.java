@@ -23,7 +23,7 @@ public class ErrorHandlingController {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Error handleConstraintViolationException(ConstraintViolationException exception){
-        log.error("handle NoAccessToRecourseException: {}", exception.getMessage());
+        log.error("handle ConstraintViolationException: {}", exception.getMessage());
         return new Error(exception.getMessage(), ErrorType.VALIDATION_ERROR, LocalDateTime.now());
     }
 
