@@ -10,11 +10,11 @@ management:
 # INFO ENDPOINT CONFIGURATION
 info:
   app:
-    name: @project.name@
-    version: @project.version@
-    encoding: @project.build.sourceEncoding@
+    name: '@project.name@'
+    version: '@project.version@'
+    encoding: '@project.build.sourceEncoding@'
     java:
-      version: @java.version@
+      version: '@java.version@'
 
 logging:
   level:
@@ -31,5 +31,14 @@ spring:
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
+
+app:
+  user:
+    email: vasylkiiko@gmail.com
+    password: Qwerty123!
+    exhibition:
+      id: 1
+    ticket:
+      id: 1

@@ -32,4 +32,16 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Ticket> tickets;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                '}';
+    }
 }
