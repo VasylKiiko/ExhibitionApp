@@ -5,6 +5,8 @@ import com.Kiiko.ExhibitionsApp.controller.model.UserModel;
 import com.Kiiko.ExhibitionsApp.dto.UserDto;
 import com.Kiiko.ExhibitionsApp.exceptions.UserNotFoundException;
 import com.Kiiko.ExhibitionsApp.repository.UserRepository;
+import com.Kiiko.ExhibitionsApp.service.ExhibitionService;
+import com.Kiiko.ExhibitionsApp.service.TicketService;
 import com.Kiiko.ExhibitionsApp.service.UserService;
 import com.Kiiko.ExhibitionsApp.test.config.TestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +35,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserControllerTest {
 
     private final static String DEFAULT_URI_PART = "/api/v1/users";
+
+    // mocks for CommandLineRunner loadData beans
+    @MockBean
+    private TicketService ticketService;
+    @MockBean
+    private ExhibitionService exhibitionService;
 
     @MockBean
     private UserService userService;

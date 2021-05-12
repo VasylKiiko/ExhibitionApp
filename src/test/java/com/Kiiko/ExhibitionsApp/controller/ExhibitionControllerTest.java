@@ -7,6 +7,8 @@ import com.Kiiko.ExhibitionsApp.exceptions.ExhibitionNotFoundException;
 import com.Kiiko.ExhibitionsApp.model.SearchDetails;
 import com.Kiiko.ExhibitionsApp.model.enums.SearchType;
 import com.Kiiko.ExhibitionsApp.service.ExhibitionService;
+import com.Kiiko.ExhibitionsApp.service.TicketService;
+import com.Kiiko.ExhibitionsApp.service.UserService;
 import com.Kiiko.ExhibitionsApp.test.config.TestConfig;
 import com.Kiiko.ExhibitionsApp.test.util.TestDataUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,6 +46,12 @@ class ExhibitionControllerTest {
 
     private final static String DEFAULT_URI_PART = "/api/v1/exhibitions";
     private static ObjectMapper objectMapper;
+
+    // mocks for CommandLineRunner loadData beans
+    @MockBean
+    private TicketService ticketService;
+    @MockBean
+    private UserService userService;
 
     @MockBean
     private ExhibitionService exhibitionService;

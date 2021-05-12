@@ -4,7 +4,9 @@ import com.Kiiko.ExhibitionsApp.controller.assembler.TicketAssembler;
 import com.Kiiko.ExhibitionsApp.controller.model.TicketModel;
 import com.Kiiko.ExhibitionsApp.dto.TicketDto;
 import com.Kiiko.ExhibitionsApp.exceptions.ExhibitionNotFoundException;
+import com.Kiiko.ExhibitionsApp.service.ExhibitionService;
 import com.Kiiko.ExhibitionsApp.service.TicketService;
+import com.Kiiko.ExhibitionsApp.service.UserService;
 import com.Kiiko.ExhibitionsApp.test.config.TestConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,6 +40,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TicketControllerTest {
 
     private static ObjectMapper objectMapper;
+
+    // mocks for CommandLineRunner loadData beans
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private ExhibitionService exhibitionService;
 
     @MockBean
     private TicketService ticketService;
