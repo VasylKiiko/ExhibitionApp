@@ -19,6 +19,7 @@ public class TestDataUtil {
     public static final LocalDateTime TICKET_CREATION_TIME = LocalDateTime.parse("2021-07-09T11:06:22");
     public static final Long TEST_USER_ID = 1L;
     public static final Long TEST_EXHIBITION_ID = 1L;
+    public static final Long TEST_TICKET_ID = 1L;
 
     public static User createUser(String email) {
         return User.builder()
